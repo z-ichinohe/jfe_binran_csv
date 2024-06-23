@@ -1,7 +1,5 @@
 # jfe-binran-csv
-A project translating catalogue published by JFE steel in pdf to csv.
+A project translating JFE Steel catalogue in pdf to csv.
 ## TODO
-- *の反映
-- Search and download HTML file hosted on Github Pages
-  - select section
-  - search with key
+- Order
+- SSG
