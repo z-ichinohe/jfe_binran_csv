@@ -1,6 +1,7 @@
 const elem = (id) => document.getElementById(id);
 
 const create_section = (filename) => {
+    return new Promise((resolve, reject)=>{
         fetch(filename).then(response=>response.text()).then(text=>{
             const lines = text.replace("\ufeff", "").split("\n").filter(line => line.length > 0);
             const keys = lines[0].split(",");
@@ -83,7 +84,9 @@ const create_section = (filename) => {
                 return section
             };
 
-            elem("main").append(section());
+            resolve(section());
+            // elem("main").append(section());
+        }).catch((filename)=>reject(filename));
     });
 };
 
@@ -137,19 +140,16 @@ const main = () => {
         '6. 高力ボルト接合部/6-6.5. H梁継手性能表_HBL-H355-M20.csv',
         '6. 高力ボルト接合部/6-6.6. H梁継手性能表_HBL-H355-M22.csv'
     ];
-    // Promise.all(
-    //     filenames.map(
-    //         filename => create_section(filename)
-    //     )
-    // ).then(
-    //     sections => sections.forEach(
-    //         section => elem("main").append(section)
-    //     )
-    // ).catch(filename => console.log(filename));
-    filenames.forEach(filename=>{
-        create_section(filename);
-        elem("toc").append(link(filename));
-    });
+    Promise.all(
+        filenames.map(filename => create_section(filename))
+    ).then(
+        sections => sections.forEach(
+            section => elem("main").append(section)
+        )
+    ).catch(
+        filename => console.log(filename)
+    );
+    filenames.forEach(filename=>elem("toc").append(link(filename)));
 };
 
 main();
