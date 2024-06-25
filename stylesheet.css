@@ -15,12 +15,20 @@ li {
 nav {
     position: fixed;
     z-index: 1;
+    top: 0;
     right: 0;
-    width: 20px;
-    padding: 20px;
+    width: 0px;
+    padding-left: 40px;
+    height: 200px;
+    background-color: darkgray;
+    border-radius: 0 0 0 10px;
 }
 
 nav:hover{
     width: auto;
+    height: auto;
+    padding: 10px;
     background-color: white;
+    border-left: 10px solid darkgray;
+    border-bottom: 10px solid darkgray;
 }

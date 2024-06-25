@@ -123,7 +123,7 @@ const download = () => {
     a.download = 'index.html';
     a.href     = blobURL;
     a.click();
-}
+};
 
 const main = () => {
     const filenames = [
@@ -167,4 +167,6 @@ const main = () => {
     filenames.forEach(filename=>elem("toc").append(link(filename)));
 };
 
-main();
+if(document.getElementsByTagName("li").length == 0){
+    main();
+}
