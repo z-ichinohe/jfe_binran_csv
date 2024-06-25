@@ -20,7 +20,6 @@ const create_section = (filename) => {
                     input.list = `${filename}_${key}_list`;
                     input.size = max_length > 0 ? max_length : 1;
                     const th = document.createElement("th");
-                    // th.append(input);
                     th.innerHTML = `<input type="search" placeholder="${key}" name="${filename}" list="${filename}_${key}_list" size=${max_length > 0 ? max_length : 1} onchange="search('${filename}');">`
                     tr.append(th);
                 });
@@ -85,7 +84,6 @@ const create_section = (filename) => {
             };
 
             resolve(section());
-            // elem("main").append(section());
         }).catch((filename)=>reject(filename));
     });
 };
@@ -109,6 +107,23 @@ const search = (filename) => {
         );
     });
 };
+
+const download = () => {
+    const blob    = new Blob([
+        '<!doctype html>\n<html lang="ja">\n',
+        document.getElementsByTagName('html')[0].innerHTML,
+        '\n</html>',
+    ]);
+    const url     = window.URL || window.webkitURL;
+    const blobURL = url.createObjectURL(blob);
+
+    // <a> を新たに作成し、ダウンロード用の設定をいろいろ
+    const a = document.createElement('a');
+    // URI を元にダウンロード時のファイル名を決定
+    a.download = 'index.html';
+    a.href     = blobURL;
+    a.click();
+}
 
 const main = () => {
     const filenames = [
