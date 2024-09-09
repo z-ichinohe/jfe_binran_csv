@@ -1,5 +1,7 @@
 const elem = (id) => document.getElementById(id);
 
+const count_string=(text)=>[...text].map(char=>char.match(/[ -~]/)!==null?1:2).reduce((a, b) => a += b, 0);
+
 const create_section = (filename) => {
     return new Promise((resolve, reject)=>{
         fetch(filename).then(response=>response.text()).then(text=>{
@@ -11,16 +13,17 @@ const create_section = (filename) => {
                 const thead = document.createElement("thead");
                 const tr = document.createElement("tr");
                 keys.forEach((key, idx)=>{
-                    const max_length = contents.map(val=> val[idx] === undefined ? 0 : val[idx].length).reduce((a, b) => a > b ? a : b);
+                    const max_length = contents.map(val=> val[idx] === undefined ? 0 : val[idx].length).reduce((a, b) => a > b ? a : b, count_string(key));
                     const input = document.createElement("input");
                     input.id = `${filename}_${key}`
                     input.type = "search";
                     input.placeholder = key;
                     input.name = filename
                     input.list = `${filename}_${key}_list`;
-                    input.size = max_length > 0 ? max_length : 1;
+                    const input_size =  max_length > 0 ? max_length : 1;
+                    input.size = input_size;
                     const th = document.createElement("th");
-                    th.innerHTML = `<input type="search" placeholder="${key}" name="${filename}" list="${filename}_${key}_list" size=${max_length > 0 ? max_length : 1} onchange="search('${filename}');">`
+                    th.innerHTML = `<input type="search" placeholder="${key}" name="${filename}" list="${filename}_${key}_list" size=${input_size} onchange="search('${filename}');">`
                     tr.append(th);
                 });
                 thead.append(tr);
@@ -153,7 +156,9 @@ const main = () => {
         '6. 高力ボルト接合部/6-6.3. H梁継手性能表_SN490-M20.csv',
         '6. 高力ボルト接合部/6-6.4. H梁継手性能表_SN490-M22.csv',
         '6. 高力ボルト接合部/6-6.5. H梁継手性能表_HBL-H355-M20.csv',
-        '6. 高力ボルト接合部/6-6.6. H梁継手性能表_HBL-H355-M22.csv'
+        '6. 高力ボルト接合部/6-6.6. H梁継手性能表_HBL-H355-M22.csv',
+        '8. 各部構造/8-1. 鉄筋/異形棒鋼.csv',
+
     ];
     Promise.all(
         filenames.map(filename => create_section(filename))
