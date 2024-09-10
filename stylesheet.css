@@ -3,9 +3,18 @@ thead {
     top: 0;
 }
 
+input {
+    font-family: monospace;
+}
+
+tr.even{
+    background-color: lightgray;
+}
+
 td {
     word-break: keep-all;
     white-space: nowrap;
+    font-family: monospace;
 }
 
 li {
