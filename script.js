@@ -19,14 +19,7 @@ const create_section = (filename) => {
                 const tr = document.createElement("tr");
                 keys.forEach((key, idx)=>{
                     const max_length = contents.map(val=> val[idx] === undefined ? 0 : display_length(val[idx])).reduce((a, b) => a > b ? a : b, display_length(key)+4);
-                    const input = document.createElement("input");
-                    input.id = `${filename}_${key}`
-                    input.type = "search";
-                    input.placeholder = key;
-                    input.name = filename
-                    input.list = `${filename}_${key}_list`;
                     const input_size =  max_length > 0 ? max_length : 1;
-                    input.size = input_size;
                     const th = document.createElement("th");
                     th.innerHTML = `<input type="search" placeholder="${key}" name="${filename}" list="${filename}_${key}_list" size=${input_size} onchange="search('${filename}');">`
                     tr.append(th);
@@ -52,7 +45,7 @@ const create_section = (filename) => {
 
             const table = () => {
                 const table = document.createElement("table");
-                table.id = filename
+                table.id = filename;
                 table.append(thead());
                 table.append(tbody());
                 return table;
@@ -60,11 +53,50 @@ const create_section = (filename) => {
 
             const h3 = ()=>{
                 const a = document.createElement("a");
-                a.href = filename
-                a.innerText = filename
+                a.href = filename;
+                a.innerText = filename;
                 const h3 = document.createElement("h3");
                 h3.append(a);
                 return h3;
+            };
+
+            const link_to_pdf=()=>{
+                const page = {
+                    '5. 断面性能表/5-1.1. H形鋼.csv': 76,
+                    '5. 断面性能表/5-1.2. H形鋼_部材種別.csv': 76,
+                    '5. 断面性能表/5-3. CT形鋼.csv': 104,
+                    '5. 断面性能表/5-4. 溶接軽量H形鋼.csv': 105,
+                    '5. 断面性能表/5-5.1. 等辺山形鋼.csv': 106,
+                    '5. 断面性能表/5-5.2. 不等辺山形鋼.csv': 107,
+                    '5. 断面性能表/5-5.3. 不等辺不等厚山形鋼.csv': 107,
+                    '5. 断面性能表/5-5.4. 溝形鋼.csv': 108,
+                    '5. 断面性能表/5-5.5. I形鋼.csv': 108,
+                    '5. 断面性能表/5-6. 角型鋼管（小径）.csv': 109,
+                    '5. 断面性能表/5-7.1. STKR400, STKR490.csv': 110,
+                    '5. 断面性能表/5-7.2. BCR295, JBCR385.csv': 111,
+                    '5. 断面性能表/5-8. 冷間成形角形鋼管.csv': 112,
+                    '5. 断面性能表/5-9. カクホット.csv': 114,
+                    '5. 断面性能表/5-10.1. UOE鋼管、板巻き鋼管.csv': 116,
+                    '5. 断面性能表/5-10.2. 電縫鋼管.csv': 119,
+                    '5. 断面性能表/5-10.3. シームレス鋼管.csv': 121,
+                    '5. 断面性能表/5-11. 溶接四面ボックス.csv': 123,
+                    '5. 断面性能表/5-12.1. 平鋼.csv': 125,
+                    '5. 断面性能表/5-12.2. 鋼板の単位質量表.csv': 126,
+                    '6. 高力ボルト接合部/6-1. 高力ボルトおよびボルトの許容耐力表.csv': 128,
+                    '6. 高力ボルト接合部/6-6.1. H梁継手性能表_SN400-M20.csv': 133,
+                    '6. 高力ボルト接合部/6-6.2. H梁継手性能表_SN400-M22.csv': 142,
+                    '6. 高力ボルト接合部/6-6.3. H梁継手性能表_SN490-M20.csv': 151,
+                    '6. 高力ボルト接合部/6-6.4. H梁継手性能表_SN490-M22.csv': 160,
+                    '6. 高力ボルト接合部/6-6.5. H梁継手性能表_HBL-H355-M20.csv': 169,
+                    '6. 高力ボルト接合部/6-6.6. H梁継手性能表_HBL-H355-M22.csv': 174,
+                    '6. 高力ボルト接合部/6-8.1. 丸鋼接合表（ＪＩＳターンバックル筋かい）.csv': 181,
+                    '6. 高力ボルト接合部/6-8.2. 筋かい接合表.csv': 181,
+                    '8. 各部構造/8-1.2. 異形棒鋼.csv': 194,
+                }[filename];
+                const a = document.createElement("a");
+                a.href=`./binran_all.pdf#page=${page}`;
+                a.innerText = "PDF";
+                return a;
             };
 
             const datalists = ()=>{
@@ -87,6 +119,7 @@ const create_section = (filename) => {
                 const section = document.createElement("section");
                 section.id = `${filename}_section`
                 section.append(h3());
+                section.append(link_to_pdf());
                 section.append(table());
                 section.append(datalists());
                 return section
@@ -139,16 +172,10 @@ const main = () => {
         // '2. 荷重および応力の組合せ/2-3. 積載荷重.csv',
         '5. 断面性能表/5-1.1. H形鋼.csv',
         '5. 断面性能表/5-1.2. H形鋼_部材種別.csv',
-        '5. 断面性能表/5-10.1. UOE鋼管、板巻き鋼管.csv',
-        '5. 断面性能表/5-10.2. 電縫鋼管.csv',
-        '5. 断面性能表/5-10.3. シームレス鋼管.csv',
-        '5. 断面性能表/5-11. 溶接四面ボックス.csv',
-        '5. 断面性能表/5-12.1. 平鋼.csv',
-        '5. 断面性能表/5-12.2. 鋼板の単位質量表.csv',
         '5. 断面性能表/5-3. CT形鋼.csv',
         '5. 断面性能表/5-4. 溶接軽量H形鋼.csv',
         '5. 断面性能表/5-5.1. 等辺山形鋼.csv',
-        '5. 断面性能表/5-5.2. 不等辺等厚山形鋼.csv',
+        '5. 断面性能表/5-5.2. 不等辺山形鋼.csv',
         '5. 断面性能表/5-5.3. 不等辺不等厚山形鋼.csv',
         '5. 断面性能表/5-5.4. 溝形鋼.csv',
         '5. 断面性能表/5-5.5. I形鋼.csv',
@@ -157,6 +184,12 @@ const main = () => {
         '5. 断面性能表/5-7.2. BCR295, JBCR385.csv',
         '5. 断面性能表/5-8. 冷間成形角形鋼管.csv',
         '5. 断面性能表/5-9. カクホット.csv',
+        '5. 断面性能表/5-10.1. UOE鋼管、板巻き鋼管.csv',
+        '5. 断面性能表/5-10.2. 電縫鋼管.csv',
+        '5. 断面性能表/5-10.3. シームレス鋼管.csv',
+        '5. 断面性能表/5-11. 溶接四面ボックス.csv',
+        '5. 断面性能表/5-12.1. 平鋼.csv',
+        '5. 断面性能表/5-12.2. 鋼板の単位質量表.csv',
         '6. 高力ボルト接合部/6-1. 高力ボルトおよびボルトの許容耐力表.csv',
         '6. 高力ボルト接合部/6-6.1. H梁継手性能表_SN400-M20.csv',
         '6. 高力ボルト接合部/6-6.2. H梁継手性能表_SN400-M22.csv',
@@ -166,7 +199,7 @@ const main = () => {
         '6. 高力ボルト接合部/6-6.6. H梁継手性能表_HBL-H355-M22.csv',
         '6. 高力ボルト接合部/6-8.1. 丸鋼接合表（ＪＩＳターンバックル筋かい）.csv',
         '6. 高力ボルト接合部/6-8.2. 筋かい接合表.csv',
-        '8. 各部構造/8-1.2. 異形棒鋼.csv'
+        '8. 各部構造/8-1.2. 異形棒鋼.csv',
     ];
     Promise.all(
         filenames.map(filename => create_section(filename))
