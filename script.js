@@ -34,7 +34,6 @@ const create_section = (prop) => {
                 const tbody = document.createElement("tbody");
                 contents.forEach((line, idx) => {
                     const tr = document.createElement("tr");
-                    tr.className = idx % 2 == 0 ? "even" : "odd";
                     line.forEach(val=>{
                         const td = document.createElement("td");
                         td.innerText = val;
