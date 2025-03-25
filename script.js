@@ -71,7 +71,7 @@ const create_section = (prop) => {
             const datalists = ()=>{
                 const datalists = document.createElement("div");
                 keys.forEach((key, idx)=>{
-                    const choices = new Set(contents.map(line => line[idx]));
+                    const choices = (key === "key" ? set=>set : set=>Array.from(set).sort())(new Set(contents.map(line => line[idx])));
                     const datalist = document.createElement("datalist");
                     datalist.id = `${filename}_${key}_list`;
                     choices.forEach(val=>{
