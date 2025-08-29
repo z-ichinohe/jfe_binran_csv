@@ -35,9 +35,10 @@ nav {
 
 nav:hover{
     width: auto;
-    height: auto;
+    height: 90vh;
     padding: 10px;
     background-color: white;
     border-left: 10px solid darkgray;
     border-bottom: 10px solid darkgray;
+    overflow-y: scroll;
 }
