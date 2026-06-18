@@ -12,7 +12,7 @@ const create_section = (prop) => {
     const page = prop[1]
     return new Promise((resolve, reject)=>{
         fetch(filename).then(response=>response.text()).then(text=>{
-            const lines = text.replace("\ufeff", "").split("\n").filter(line => line.length > 0);
+            const lines = text.replace("\ufeff", "").split("\r\n").filter(line => line.length > 0);
             const keys = lines[0].split(",");
             const contents = lines.slice(1, ).map(line => line.split(","));
 
@@ -125,7 +125,13 @@ const search = (filename) => {
 const download = () => {
     const blob    = new Blob([
         '<!doctype html>\n<html lang="ja">\n',
-        document.getElementsByTagName('html')[0].innerHTML,
+        html_beautify(
+            document.getElementsByTagName('html')[0].innerHTML,
+            {
+                "indent_size": 2,
+                "space_in_empty_paren": true
+            }
+        ),
         '\n</html>',
     ]);
     const url     = window.URL || window.webkitURL;
